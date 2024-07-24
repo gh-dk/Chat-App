@@ -10,7 +10,7 @@ import {
 
 const router = express.Router();
 
-console.log("Router get loaded");
+// console.log("Router get loaded");
 // Route to create a new chat or append a message to an existing chat
 router.post('/', createOrUpdateChat);
 
