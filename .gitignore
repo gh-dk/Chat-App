@@ -1,1 +1,8 @@
-*/node_modules
+# Ignore IDE-specific directories
+.vscode/
+
+# Ignore node_modules
+node_modules/
+
+# Ignore environment variable files
+.env

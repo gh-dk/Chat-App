@@ -1,0 +1,44 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  text-decoration: none;
+  color: inherit;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  background: white;
+  margin-top: 0;
+  padding: 0;
+  color: rgb(40, 45, 48);
+}
+
+.viewPage {
+  background: white;
+  min-height: calc(100dvh - 80px);
+  max-height: calc(100dvh - 80px);
+  margin-top: 0;
+  overflow: scroll;
+}
+
+@media (width>720px) {
+  #root {
+    display: flex;
+    flex-direction: row-reverse;
+    background: red;
+  }
+
+  .viewPage {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+  }
+}

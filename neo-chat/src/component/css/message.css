@@ -1,0 +1,17 @@
+.messageBox {
+  display: none;
+}
+
+@media (width>720px) {
+  .messageBox {
+    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .messageBox img {
+    width: 50%;
+    opacity: 0.7;
+  }
+}
