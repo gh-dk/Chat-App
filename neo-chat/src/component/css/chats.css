@@ -1,0 +1,95 @@
+.chats::-webkit-scrollbar {
+  display: none;
+}
+
+.chats .chat {
+  padding: 12px 15px;
+  padding-bottom: 5px;
+  display: flex;
+  transition: 0.5s background;
+}
+
+.chats .chat:hover {
+  background: #f5f5f5;
+}
+
+.chats .chat .userprofile {
+  position: relative;
+}
+.chats .chat .userprofile img {
+  width: 50px;
+  height: 50px;
+  background: #f5f5f5;
+  border-radius: 50%;
+}
+
+.chats .chat .userprofile .online {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  top: 38px;
+  right: 2px;
+  border: 2px solid white;
+  background: lightgreen;
+  border-radius: 50%;
+}
+
+.chats .chat .userdetail {
+  width: 100%;
+  padding: 2px 10px;
+}
+
+.chats .chat .userdetail {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chats .chat .userdetail.userlist {
+  justify-self: end;
+  align-items: start;
+}
+
+.chats .chat .userdetail.userlist .chattitle {
+  height: 100%;
+  width: 100%;
+  padding-bottom: 5px;
+}
+
+.chats .chat .userdetail .chattitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chats .chat .userdetail .chattitle h3 {
+  font-size: 15px;
+  color: rgb(41, 46, 51);
+  font-weight: normal;
+  line-height: 0;
+}
+
+.chats .chat .userdetail .chattitle small {
+  font-size: 12px;
+}
+
+.chats .chat .userdetail .lastmessage {
+  font-size: 13px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: rgb(95, 115, 126);
+}
+
+@media (width>720px) {
+  .chats {
+    width: 350px;
+    border-right: 1px solid rgba(128, 128, 128, 0.164);
+  }
+
+  .chats {
+    height: calc(100% - 125px);
+    overflow: scroll;
+  }
+}
