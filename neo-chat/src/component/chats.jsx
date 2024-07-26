@@ -1,4 +1,3 @@
-import React from "react";
 import "./css/chats.css";
 import userImage from "../assets/user.png";
 
@@ -7,7 +6,7 @@ export default function chats() {
   return (
     <div className="chats">
       {msg.map((chat) => (
-        <div className="chat">
+        <div className="chat" key={chat}>
           <div className="userprofile">
             <img src={userImage} alt="" />
             <div className="online"></div>

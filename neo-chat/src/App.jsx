@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom"; // Imported Switch
 import Home from "./component/home";
 import Users from "./component/users";
-import Nav from "./component/nav";
+import Nav from "./component/nav"
 import Message from "./component/message";
 import "./App.css";
 
@@ -21,14 +21,10 @@ export default function App() {
           </Switch>
           <Message />
         </div>
-        <NavWrapper />
+        <Nav/>
       </BrowserRouter>
     </>
   );
 }
 
-function NavWrapper() {
-  const location = useLocation();
-  console.log(location);
-  return <Nav currentPath={location.pathname} />;
-}
+

@@ -2,8 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "./css/nav.css";
 
-export default function Nav({ currentPath }) {
-  console.log(currentPath);
+export default function Nav() {
 
   return (
     <div className="nav">
