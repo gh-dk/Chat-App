@@ -45,6 +45,17 @@
   gap: 6px;
 }
 
+.chats .chat .userdetail.userlist {
+  justify-self: end;
+  align-items: start;
+}
+
+.chats .chat .userdetail.userlist .chattitle {
+  height: 100%;
+  width: 100%;
+  padding-bottom: 5px;
+}
+
 .chats .chat .userdetail .chattitle {
   display: flex;
   align-items: center;
@@ -78,7 +89,7 @@
   }
 
   .chats {
-    height: calc(100% - 130px);
+    height: calc(100% - 125px);
     overflow: scroll;
   }
 }
