@@ -13,5 +13,6 @@
   .messageBox img {
     width: 50%;
     opacity: 0.7;
+    min-width: 350px;
   }
 }

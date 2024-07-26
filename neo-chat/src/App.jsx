@@ -3,9 +3,11 @@ import { useLocation } from "react-router-dom";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom"; // Imported Switch
 import Home from "./component/home";
 import Users from "./component/users";
-import Nav from "./component/nav"
+import Nav from "./component/nav";
 import Message from "./component/message";
 import "./App.css";
+import Auth from "./Layout/auth";
+import { Bigprofile } from "./component/Bigprofile";
 
 export default function App() {
   return (
@@ -18,13 +20,13 @@ export default function App() {
             <Route path="/people" component={Home} />
             <Route path="/group" component={Home} />
             <Route path="/users" component={Users} />
+            <Route path="/auth" component={Auth} />
           </Switch>
           <Message />
+          <Bigprofile />
         </div>
-        <Nav/>
+        <Nav />
       </BrowserRouter>
     </>
   );
 }
-
-

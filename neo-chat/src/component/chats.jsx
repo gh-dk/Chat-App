@@ -1,5 +1,6 @@
 import "./css/chats.css";
 import userImage from "../assets/user.png";
+import { setBigImage } from "./Bigprofile";
 
 export default function chats() {
   const msg = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
@@ -8,7 +9,13 @@ export default function chats() {
       {msg.map((chat) => (
         <div className="chat" key={chat}>
           <div className="userprofile">
-            <img src={userImage} alt="" />
+            <img
+              onClick={() => {
+                setBigImage(userImage);
+              }}
+              src={userImage}
+              alt=""
+            />
             <div className="online"></div>
           </div>
           <div className="userdetail">

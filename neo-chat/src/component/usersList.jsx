@@ -1,6 +1,7 @@
 import React from "react";
 import "./css/chats.css";
 import userImage from "../assets/user.png";
+import { setBigImage } from "./Bigprofile";
 
 export default function UsersList({ users }) {
   return (
@@ -8,7 +9,13 @@ export default function UsersList({ users }) {
       {users.map((user) => (
         <div className="chat" key={user._id}>
           <div className="userprofile">
-            <img src={user.avatar || userImage} alt="User Avatar" />
+            <img
+              onClick={() => {
+                setBigImage(user.avatar || userImage);
+              }}
+              src={user.avatar || userImage}
+              alt="User Avatar"
+            />
             {/* <div className="online"></div> */}
           </div>
           <div className="userdetail userlist">
