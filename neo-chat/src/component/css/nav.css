@@ -38,12 +38,12 @@
   }
 
   .nav .active::after {
-    left: -7px;
+    left: -10px;
     bottom: 50%;
     transform: translateY(50%);
     width: 40px;
     height: 40px;
-    background: #f5f5f555;
+    background: #cacaca62;
     z-index: 0;
   }
 }

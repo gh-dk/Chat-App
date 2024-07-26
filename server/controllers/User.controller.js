@@ -4,6 +4,16 @@ import jwt from "jsonwebtoken";
 import transporter from "../config/nodemailer.config.js";
 import "dotenv/config";
 
+const accessTokenExpiry = "2m"; // Access token expires in 2 minutes
+const refreshTokenExpiry = "7d"; // Refresh token expires in 7 days
+
+// Generate Access and Refresh Tokens
+const generateTokens = (userId) => {
+  const accessToken = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: accessTokenExpiry });
+  const refreshToken = jwt.sign({ userId }, process.env.JWT_REFRESH_SECRET, { expiresIn: refreshTokenExpiry });
+  return { accessToken, refreshToken };
+};
+
 // Create a new user
 export const createUser = async (req, res) => {
   try {
@@ -31,29 +41,44 @@ export const getAllUsers = async (req, res) => {
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const hashpass = await bcrypt.hash(password, 10);
     const user = await User.findOne({ email });
-    console.log(user);
 
     if (!user) {
       return res.status(404).send({ message: "User not found" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-
     if (!isMatch) {
       return res.status(400).send({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const { accessToken, refreshToken } = generateTokens(user._id);
 
-    res
-      .status(200)
-      .send({ token, user: { ...user.toObject(), password: undefined } });
+    res.status(200).send({
+      accessToken,
+      refreshToken,
+      user: { ...user.toObject(), password: undefined },
+    });
   } catch (error) {
     res.status(500).send(error);
+  }
+};
+
+// Refresh token
+export const refreshAccessToken = async (req, res) => {
+  try {
+    const { refreshToken } = req.body;
+
+    if (!refreshToken) {
+      return res.status(400).send({ message: "Refresh token not provided" });
+    }
+
+    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+    const { accessToken, refreshToken: newRefreshToken } = generateTokens(decoded.userId);
+
+    res.status(200).send({ accessToken, refreshToken: newRefreshToken });
+  } catch (error) {
+    res.status(403).send({ message: "Invalid or expired refresh token" });
   }
 };
 
@@ -62,6 +87,7 @@ export const sendResetPasswordEmail = async (req, res) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ email });
+
     if (!user) {
       return res.status(404).send({ message: "User not found" });
     }
@@ -92,8 +118,7 @@ export const resetPassword = async (req, res) => {
   try {
     const { newPassword } = req.body;
     const { token } = req.query;
-    console.log(token);
-    console.log(token, newPassword);
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     const user = await User.findById(decoded.userId);

@@ -1,0 +1,52 @@
+.auth {
+  background: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth .form {
+  border: 1px solid grey;
+  padding: 17px;
+  border-radius: 10px;
+}
+
+.auth .form img {
+  width: 250px;
+}
+
+.auth .form input {
+  padding: 10px 0;
+  background-color: white;
+  border-bottom: 1px solid grey;
+  margin-top: 15px;
+  display: block;
+  outline: none;
+}
+
+.auth .form button {
+  width: 100%;
+  padding: 13px;
+  margin-top: 17px;
+  border-radius: 5px;
+  color: white;
+  background: black;
+  cursor: pointer;
+}
+
+.auth .form .nextpagemsg {
+  font-size: 13px;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.auth .form .nextpagemsg span {
+  color: blue;
+  cursor: pointer;
+}

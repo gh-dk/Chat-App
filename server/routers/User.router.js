@@ -1,5 +1,6 @@
+
 import express from 'express';
-import { createUser, getAllUsers,loginUser,resetPassword ,sendResetPasswordEmail} from '../controllers/User.controller.js'; // Make sure to use the correct path
+import {createUser,getAllUsers,loginUser,sendResetPasswordEmail,resetPassword,refreshAccessToken} from '../controllers/User.controller.js';
 
 const router = express.Router();
 
@@ -11,6 +12,9 @@ router.get('/', getAllUsers);
 
 // Route for user login
 router.post('/login', loginUser);
+
+// Route to refresh access token
+router.post('/refresh-token', refreshAccessToken);
 
 // Route to send reset password email
 router.post('/send-reset-password-email', sendResetPasswordEmail);
