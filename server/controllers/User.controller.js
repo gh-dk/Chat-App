@@ -48,7 +48,6 @@ export const loginUser = async (req, res) => {
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-
     if (!isMatch) {
       return res.status(400).send({ message: "Invalid credentials" });
     }
@@ -75,7 +74,7 @@ export const refreshAccessToken = async (req, res) => {
     }
 
     const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-    const { accessToken, newRefreshToken } = generateTokens(decoded.userId);
+    const { accessToken, refreshToken: newRefreshToken } = generateTokens(decoded.userId);
 
     res.status(200).send({ accessToken, refreshToken: newRefreshToken });
   } catch (error) {
@@ -98,7 +97,7 @@ export const sendResetPasswordEmail = async (req, res) => {
     });
 
     const resetLink = `${process.env.CLIENT_URL}/users/reset-password?token=${token}`;
-
+    console.log(resetLink);
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
