@@ -8,7 +8,7 @@ export default function AppLayout() {
     <>
         <div className='viewPage'>
         <Outlet/>
-        <Message/>
+        {/* <Message/> */}
         </div>
         <Nav/>
     </>

@@ -21,7 +21,15 @@ export const createUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ ...rest, password: hashedPassword });
     await user.save();
-    res.status(201).send(user);
+    // Generate access and refresh tokens
+    const { accessToken, refreshToken } = generateTokens(user._id);
+
+    // Send the user object along with the tokens
+    res.status(201).send({
+      user: { ...user.toObject(), password: undefined }, // Exclude password from the response
+      accessToken,
+      refreshToken,
+    });
   } catch (error) {
     res.status(400).send(error);
   }

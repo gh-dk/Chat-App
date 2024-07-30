@@ -1,13 +1,20 @@
-
+// User.router.js
 import express from 'express';
-import {createUser,getAllUsers,loginUser,sendResetPasswordEmail,resetPassword,refreshAccessToken} from '../controllers/User.controller.js';
+import {
+  createUser,
+  getAllUsers,
+  loginUser,
+  sendResetPasswordEmail,
+  resetPassword,
+  refreshAccessToken,
+} from '../controllers/User.controller.js';
 
 const router = express.Router();
 
 // Route to create a new user
 router.post('/', createUser);
 
-// Route to get all users
+// Route to get all users (protected route)
 router.get('/', getAllUsers);
 
 // Route for user login
