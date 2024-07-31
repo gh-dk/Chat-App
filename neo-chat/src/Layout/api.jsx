@@ -2,7 +2,6 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_HOST_URL,
-  withCredentials: true, // Make sure cookies are sent with requests
 });
 
 api.interceptors.response.use(
