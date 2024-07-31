@@ -5,6 +5,7 @@
 .chats .chat {
   padding: 12px 15px;
   padding-bottom: 5px;
+  cursor: pointer;
   display: flex;
   transition: 0.5s background;
 }

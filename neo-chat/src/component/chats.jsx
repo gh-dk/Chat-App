@@ -3,24 +3,34 @@ import userImage from "../assets/user.png";
 import { setBigImage } from "./Bigprofile";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserChats,setCurrentChatId } from "../features/chats/chatsSlice";
+import { fetchUserChats, setCurrentChatId } from "../features/chats/chatsSlice";
 import moment from "moment";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useParams, useLocation } from "react-router-dom";
 
 export default function Chats() {
   const dispatch = useDispatch();
   const { userChats, status, error } = useSelector((state) => state.chats);
   const id = JSON.parse(localStorage.getItem("user"))._id;
+  const history = useHistory();
+  const location = useLocation();
+
+  console.log(location);
+  const messagepage = new URLSearchParams(location.search).get("message");
+  // console.log(messagepage);
 
   useEffect(() => {
+    if (!messagepage) {
+      dispatch(setCurrentChatId(null));
+    }
     if (status === "idle") {
       dispatch(fetchUserChats(id));
     }
-  }, [status, dispatch, id]);
+  }, [status, dispatch, id, location]);
 
   const handleChat_id = (chatid) => {
     console.log(chatid);
-    dispatch(setCurrentChatId(chatid))
+    dispatch(setCurrentChatId(chatid));
+    history.push("?message=true");
   };
 
   if (status === "loading") {

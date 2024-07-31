@@ -16,6 +16,7 @@ export default function App() {
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/chats" />} />
             <ProtectedRoute path="/chats" component={Home} />
+            {/* <ProtectedRoute path="/chats/:chatname" component={Home} /> */}
             <ProtectedRoute path="/people" component={Home} />
             <ProtectedRoute path="/group" component={Home} />
             <ProtectedRoute path="/users" component={Users} />
