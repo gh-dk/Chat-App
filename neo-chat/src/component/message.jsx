@@ -4,14 +4,13 @@ import api from "../Layout/api";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchChatMsgs } from "../features/chats/chatsSlice";
 import UserImage from "../assets/user.png";
-import { useParams } from "react-router-dom";
 
 export default function message() {
   const { messages } = useSelector((state) => state.chats);
   const currentChatId = useSelector((state) => state.chats.currentChatId);
   const dispatch = useDispatch();
   const id = JSON.parse(localStorage.getItem("user"))?._id || "";
-
+  // const history = useHistory();
   //log
   // console.log("chatid:" + currentChatId);
   // console.log("userId:" + id);
@@ -34,6 +33,12 @@ export default function message() {
       <div className="messageBox">
         <div className="Chatheader">
           <div className="chatDetail">
+            <i
+              onClick={() => {
+                window.history.back();
+              }}
+              className="ri-arrow-left-s-line back-arrow"
+            ></i>
             <img src={UserImage} />
             <span>
               <h3>Usename</h3>
@@ -48,7 +53,7 @@ export default function message() {
           <div className="chat">hello</div>
         </div>
         <div className="ChatInput">
-          <input />
+          <input type="text"/>
           <i className="ri-send-plane-2-line"></i>
         </div>
       </div>
