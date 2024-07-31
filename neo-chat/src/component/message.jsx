@@ -8,7 +8,7 @@ export default function message() {
   const { messages } = useSelector((state) => state.chats);
   const currentChatId = useSelector((state) => state.chats.currentChatId);
   const dispatch = useDispatch();
-  const id = JSON.parse(localStorage.getItem("user"))._id;
+  const id = JSON.parse(localStorage.getItem("user"))?._id || '';
 
   //log
   console.log("chatid:" + currentChatId);
