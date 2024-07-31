@@ -53,7 +53,7 @@ export default function message() {
           <div className="chat">hello</div>
         </div>
         <div className="ChatInput">
-          <input type="text"/>
+          <input type="text" placeholder="Message" autoFocus/>
           <i className="ri-send-plane-2-line"></i>
         </div>
       </div>
