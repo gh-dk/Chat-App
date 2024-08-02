@@ -85,13 +85,22 @@ export const addMessageToChat = async (req, res) => {
       { _id: chatid, participants: id },
       { $push: { messages: newMessage } },
       { new: true }
-    ).populate({ path: 'messages.sender', select: '-password' });
+    );
 
     if (!chat) {
       return res.status(404).send({ message: 'Chat not found or user not a participant' });
     }
 
-    res.status(201).send(chat);
+    // Find the new message from the updated chat
+    const updatedChat = await Chat.findOne(
+      { _id: chatid, 'messages.timestamp': newMessage.timestamp }
+    ).populate({ path: 'messages.sender', select: '-password' });
+
+    const newPushedMessage = updatedChat.messages.find(
+      message => message.timestamp.getTime() === newMessage.timestamp.getTime()
+    );
+
+    res.status(201).send(newPushedMessage);
   } catch (error) {
     res.status(500).send(error);
   }
