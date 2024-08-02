@@ -13,6 +13,8 @@
 :root{
   --maincolor:#3690f2;
   --maincolor30:#3690f266;
+  --maincolor10:#3690f244;
+
 }
 
 ::-webkit-scrollbar {

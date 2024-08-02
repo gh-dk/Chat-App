@@ -80,7 +80,7 @@ export default function Chats() {
                 src={
                   chat.typeGroup
                     ? chat.groupAvatar
-                    : chat.avatar || chat.participants[0].avatar || userImage
+                    : chat?.avatar || chat.participants[0]?.avatar || userImage
                 }
                 alt=""
               />

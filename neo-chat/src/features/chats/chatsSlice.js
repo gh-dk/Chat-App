@@ -17,7 +17,18 @@ export const fetchUserChats = createAsyncThunk(
   "chats/fetchUserChats",
   async (id) => {
     const response = await api.get(`/chats/user/${id}`);
-    return { data: response.data, userId: id }; // Return both data and userId
+    return { data: response.data, userId: id };
+  }
+);
+
+export const sendUserChat = createAsyncThunk(
+  "chats/sendUserChat",
+  async ({ userId, chatId, message }) => {
+    const response = await api.post(`/chats/user/${userId}/${chatId}`, {
+      sender: userId, // Ensure the data format matches the server expectation
+      content: message,
+    });
+    return { data: response.data, chatId, userId };
   }
 );
 

@@ -2,7 +2,7 @@ import React, { useEffect, useId, useState, useRef } from "react";
 import "./css/message.css";
 import api from "../Layout/api";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchChatMsgs } from "../features/chats/chatsSlice";
+import { fetchChatMsgs, sendUserChat } from "../features/chats/chatsSlice";
 import UserImage from "../assets/user.png";
 import { useHistory } from "react-router";
 import moment from "moment";
@@ -40,9 +40,21 @@ export default function message() {
     } else {
       return true;
     }
+  };
 
-    console.log(messages[elementIndex]);
-    return true;
+  const TempSendMessage = () => {
+    if (textareaRef.current.value.length > 0) {
+      dispatch(
+        sendUserChat({
+          userId: id,
+          chatId: currentChatId,
+          message: textareaRef.current.value,
+        })
+      );
+      textareaRef.current.value = "";
+      setTextareaValue("");
+      adjustTextareaHeight();
+    }
   };
 
   useEffect(() => {
@@ -83,7 +95,7 @@ export default function message() {
               src={
                 selectedUserDetail.typeGroup
                   ? selectedUserDetail.groupAvatar
-                  : selectedUserDetail.participants[0].avatar
+                  : selectedUserDetail.participants[0]?.avatar || UserImage
               }
             />
             <span>
@@ -102,13 +114,12 @@ export default function message() {
         <div className="ChatUserData">
           {messages.map((e, index) => (
             <div
-              className={`chat ${e.sender._id === id ? "me" : ""} ${chatImageSetter(index) ? '' : 'sub'}`}
+              className={`chat ${e.sender._id === id ? "me" : ""} ${
+                chatImageSetter(index) ? "" : "sub"
+              }`}
               key={e._id}
             >
-              <img
-                src={e.sender.avatar}
-                alt=""
-              />
+              <img src={e.sender.avatar} alt="" />
               <div className="chatWrap">
                 <pre>
                   {e.content}
@@ -128,7 +139,7 @@ export default function message() {
             placeholder="Message"
           ></textarea>
 
-          <i className="ri-send-plane-2-fill"></i>
+          <i onClick={TempSendMessage} className="ri-send-plane-2-fill"></i>
         </div>
       </div>
     );
