@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchChatMsgs } from "../features/chats/chatsSlice";
 import UserImage from "../assets/user.png";
 import { useHistory } from "react-router";
+import moment from "moment";
 
 export default function message() {
   const { messages, selectedUserDetail } = useSelector((state) => state.chats);
@@ -27,6 +28,21 @@ export default function message() {
       textareaRef.current.style.height =
         Math.min(textareaRef.current.scrollHeight, 100) + "px";
     }
+  };
+
+  const chatImageSetter = (elementIndex) => {
+    const current = messages[elementIndex];
+    if (elementIndex === 0) return true;
+    const parentElemet = messages[elementIndex - 1];
+    console.log(current);
+    if (current.sender._id === parentElemet.sender._id) {
+      return false;
+    } else {
+      return true;
+    }
+
+    console.log(messages[elementIndex]);
+    return true;
   };
 
   useEffect(() => {
@@ -84,15 +100,20 @@ export default function message() {
           <i className="ri-phone-line extra"></i>
         </div>
         <div className="ChatUserData">
-          {messages.map((e) => (
+          {messages.map((e, index) => (
             <div
-              className={`chat ${e.sender._id === id ? "me" : ""}`}
+              className={`chat ${e.sender._id === id ? "me" : ""} ${chatImageSetter(index) ? '' : 'sub'}`}
               key={e._id}
             >
-              <img src={e.sender.avatar} alt="" />
+              <img
+                src={e.sender.avatar}
+                alt=""
+              />
               <div className="chatWrap">
-                <pre>{e.content}</pre>
-                <small>10:10</small>
+                <pre>
+                  {e.content}
+                  <small>{moment(e.timestamp).format("HH:MM")}</small>
+                </pre>
               </div>
             </div>
           ))}

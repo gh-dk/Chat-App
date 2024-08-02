@@ -113,9 +113,9 @@
   padding: 10px;
   border-radius: 10px;
   border-top-left-radius: 0;
-  font-size: 15px;
+  font-size: 0.85rem;
   font-weight: 400;
-  max-width: 300px;
+  max-width: 250px;
   word-break: keep-all;
   white-space: wrap;
   width: fit-content;
@@ -123,19 +123,34 @@
 
 .messageBox .ChatUserData .chat.me .chatWrap pre {
   background: var(--maincolor30);
+  position: relative;
+  /* padding-bottom: 15px; */
 }
 
-.messageBox .ChatUserData .chat .chatWrap:hover small {
+.messageBox .ChatUserData .chat.sub .chatWrap pre {
+  border-radius: 10px;
+  margin-top: -5px;
+}
+
+.messageBox .ChatUserData .chat.sub img {
+  opacity: 0;
+}
+
+.messageBox .ChatUserData .chat .chatWrap pre small {
   display: block;
-  position: absolute;
+  /* position: absolute; */
+  bottom: 0;
+  margin-bottom: -7px;
+  opacity: 50%;
+  margin-top: 2px;
+  font-size: 9px;
 }
 
-.messageBox .ChatUserData .chat.me .chatWrap:hover small {
+.messageBox .ChatUserData .chat.me .chatWrap pre small {
   text-align: right;
 }
 
-.messageBox .ChatUserData .chat .chatWrap small {
-  font-size: 13px;
+.messageBox .ChatUserData .chat.me img {
   display: none;
 }
 
