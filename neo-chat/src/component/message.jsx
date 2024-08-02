@@ -4,11 +4,13 @@ import api from "../Layout/api";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchChatMsgs } from "../features/chats/chatsSlice";
 import UserImage from "../assets/user.png";
+import { useHistory } from "react-router";
 
 export default function message() {
-  const { messages, userChats } = useSelector((state) => state.chats);
+  const { messages, selectedUserDetail } = useSelector((state) => state.chats);
   const currentChatId = useSelector((state) => state.chats.currentChatId);
   const dispatch = useDispatch();
+  const history = useHistory();
   const id = JSON.parse(localStorage.getItem("user"))?._id || "";
 
   const textareaRef = useRef(null);
@@ -35,8 +37,14 @@ export default function message() {
     if (currentChatId) {
       dispatch(fetchChatMsgs({ userId: id, chatId: currentChatId }));
     }
-    console.log(userChats);
   }, [currentChatId, dispatch, id]);
+
+  useEffect(() => {
+    console.log("messages");
+    console.log(messages);
+    console.log(selectedUserDetail);
+    return () => {};
+  }, [messages, selectedUserDetail]);
 
   if (!currentChatId) {
     return (
@@ -51,13 +59,23 @@ export default function message() {
           <div className="chatDetail">
             <i
               onClick={() => {
-                window.history.back();
+                history.push("?message=false");
               }}
               className="ri-arrow-left-s-line back-arrow"
             ></i>
-            <img src={UserImage} />
+            <img
+              src={
+                selectedUserDetail.typeGroup
+                  ? selectedUserDetail.groupAvatar
+                  : selectedUserDetail.participants[0].avatar
+              }
+            />
             <span>
-              <h3>Usename</h3>
+              <h3>
+                {selectedUserDetail.typeGroup
+                  ? selectedUserDetail.groupName
+                  : selectedUserDetail.participants[0].username}
+              </h3>
               <p>
                 <small>Online</small>
               </p>
@@ -66,21 +84,18 @@ export default function message() {
           <i className="ri-phone-line extra"></i>
         </div>
         <div className="ChatUserData">
-          <div className="chat">
-            <img src={UserImage} alt="" />
-            <div className="chatWrap">
-              <pre>lorem lorem lorem lorem lorem lorem lorem</pre>
-              <small>10:10</small>
+          {messages.map((e) => (
+            <div
+              className={`chat ${e.sender._id === id ? "me" : ""}`}
+              key={e._id}
+            >
+              <img src={e.sender.avatar} alt="" />
+              <div className="chatWrap">
+                <pre>{e.content}</pre>
+                <small>10:10</small>
+              </div>
             </div>
-          </div>
-
-          <div className="chat me">
-            <img src={UserImage} alt="" />
-            <div className="chatWrap">
-              <pre>lorem lorem lorem lorem lorem lorem</pre>
-              <small>10:10</small>
-            </div>
-          </div>
+          ))}
         </div>
         <div className="ChatInput">
           <i className="ri-attachment-line extra"></i>

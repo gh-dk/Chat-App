@@ -3,7 +3,7 @@ import userImage from "../assets/user.png";
 import { setBigImage } from "./Bigprofile";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserChats, setCurrentChatId } from "../features/chats/chatsSlice";
+import { fetchUserChats, setCurrentChatId,setMessageselectedUserDetail } from "../features/chats/chatsSlice";
 import moment from "moment";
 import { Link, useHistory, useParams, useLocation } from "react-router-dom";
 import Loading from "./loading";
@@ -20,17 +20,21 @@ export default function Chats() {
   // console.log(messagepage);
 
   useEffect(() => {
-    if (!messagepage) {
+    if (!messagepage || messagepage === 'false') {
+      console.log(messagepage);
       dispatch(setCurrentChatId(null));
     }
+    
+    console.log(messagepage);
     if (status === "idle") {
       dispatch(fetchUserChats(id));
     }
   }, [status, dispatch, id, location]);
 
-  const handleChat_id = (chatid) => {
+  const handleChat_id = (chatid,chatDetail) => {
     console.log(chatid);
     dispatch(setCurrentChatId(chatid));
+    dispatch(setMessageselectedUserDetail(chatDetail))
     history.push("?message=true");
   };
 
@@ -58,11 +62,7 @@ export default function Chats() {
           <div className="chat" key={index}>
             <div className="userprofile">
               <img
-                onClick={(e) =>
-                  setBigImage(
-                    e.target.src
-                  )
-                }
+                onClick={(e) => setBigImage(e.target.src)}
                 src={
                   chat.typeGroup
                     ? chat.groupAvatar
@@ -75,7 +75,7 @@ export default function Chats() {
             <div
               className="userdetail"
               onClick={() => {
-                handleChat_id(chat.chat_id);
+                handleChat_id(chat.chat_id,chat);
               }}
             >
               <div className="chattitle">

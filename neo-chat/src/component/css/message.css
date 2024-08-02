@@ -109,7 +109,7 @@
 }
 
 .messageBox .ChatUserData .chat .chatWrap pre {
-  background: var(--maincolor30);
+  background: #f0f0f0;
   padding: 10px;
   border-radius: 10px;
   border-top-left-radius: 0;
@@ -122,7 +122,7 @@
 }
 
 .messageBox .ChatUserData .chat.me .chatWrap pre {
-  background: #e7e7e7;
+  background: var(--maincolor30);
 }
 
 .messageBox .ChatUserData .chat .chatWrap:hover small {

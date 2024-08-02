@@ -6,6 +6,7 @@ import api from "../../Layout/api";
 const initialState = {
   currentChatId: null,
   userChats: [],
+  selectedUserDetail: {},
   messages: [],
   status: "idle",
   error: null,
@@ -34,6 +35,9 @@ const chatsSlice = createSlice({
   reducers: {
     setCurrentChatId: (state, action) => {
       state.currentChatId = action.payload;
+    },
+    setMessageselectedUserDetail: (state, action) => {
+      state.selectedUserDetail = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -69,13 +73,15 @@ const chatsSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(fetchChatMsgs.fulfilled,(state,action)=>{
+      .addCase(fetchChatMsgs.fulfilled, (state, action) => {
         state.status = "successed";
+        state.messages = action.payload.data;
         console.log(action.payload.data);
-      })
+      });
   },
 });
 
-export const { setCurrentChatId } = chatsSlice.actions;
+export const { setCurrentChatId, setMessageselectedUserDetail } =
+  chatsSlice.actions;
 
 export default chatsSlice.reducer;
