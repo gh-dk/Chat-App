@@ -34,7 +34,7 @@ export default function message() {
     const current = messages[elementIndex];
     if (elementIndex === 0) return true;
     const parentElemet = messages[elementIndex - 1];
-    console.log(current);
+    // console.log(current);
     if (current.sender._id === parentElemet.sender._id) {
       return false;
     } else {

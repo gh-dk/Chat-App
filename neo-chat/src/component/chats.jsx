@@ -44,11 +44,6 @@ export default function Chats() {
     history.push("?message=true");
   };
 
-  useEffect(() => {
-    console.log(userChats, currentChatId);
-    return () => {};
-  }, [userChats, currentChatId]);
-
   if (status === "loading") {
     return (
       <div className="statusmessage">

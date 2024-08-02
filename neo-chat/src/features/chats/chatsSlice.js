@@ -89,7 +89,7 @@ const chatsSlice = createSlice({
       .addCase(fetchChatMsgs.fulfilled, (state, action) => {
         state.status = "successed";
         state.messages = action.payload.data;
-        console.log(action.payload.data);
+        // console.log(action.payload.data);
       });
   },
 });
