@@ -1,7 +1,7 @@
 import "./css/chats.css";
 import userImage from "../assets/user.png";
 import { setBigImage } from "./Bigprofile";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchUserChats,
@@ -12,15 +12,17 @@ import moment from "moment";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Loading from "./loading";
 
-export default function Chats() {
+export default function Chats({ path }) {
   const dispatch = useDispatch();
   const { userChats, status, error, currentChatId } = useSelector(
     (state) => state.chats
   );
+
+  const [renderingChat, setrenderingChat] = useState([]);
+
   const id = JSON.parse(localStorage.getItem("user"))._id;
   const history = useHistory();
   const location = useLocation();
-
 
   const messagepage = new URLSearchParams(location.search).get("message");
   // console.log(messagepage);
@@ -44,6 +46,28 @@ export default function Chats() {
     history.push("?message=true");
   };
 
+  useEffect(() => {
+    if (path?.split("/").join("") === "people") {
+      console.log(path);
+      const filteredChat = userChats.filter((e) => e.participants.length == 1);
+      console.log(userChats);
+      console.log(filteredChat);
+      setrenderingChat(filteredChat);
+    }
+
+    if (path?.split("/").join("") === "group") {
+      console.log(path);
+      const filteredChat = userChats.filter((e) => e.participants.length > 1);
+      console.log(userChats);
+      console.log(filteredChat);
+      setrenderingChat(filteredChat);
+    }
+
+    if (path?.split("/").join("") === "chats") {
+      setrenderingChat(userChats);
+    }
+  }, [userChats, path]);
+
   if (status === "loading") {
     return (
       <div className="statusmessage">
@@ -63,8 +87,8 @@ export default function Chats() {
   // console.log(userChats);
   return (
     <div className="chats">
-      {userChats.length > 0 ? (
-        userChats.map((chat, index) => (
+      {renderingChat.length > 0 ? (
+        renderingChat.map((chat, index) => (
           <div
             className={`chat ${chat.chat_id === currentChatId ? "active" : ""}`}
             key={index}
@@ -95,7 +119,12 @@ export default function Chats() {
                       : chat.participants[0].username || "Unknown User"
                     : "Unknown User"}
                 </h3>
-                <small>{moment(chat.lastmsgTime).fromNow()}</small>
+                <small>
+                  {moment(chat.lastmsgTime).format("DD/MM/YY") ===
+                  moment(Date.now()).format("DD/MM/YY")
+                    ? moment(chat.lastmsgTime).format("MM:HH")
+                    : moment(chat.lastmsgTime).format("DD/MM/YY")}
+                </small>
               </div>
               <div className="lastmessage">{chat.lastmsg}</div>
             </div>
