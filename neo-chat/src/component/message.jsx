@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useState } from "react";
+import React, { useEffect, useId, useState, useRef } from "react";
 import "./css/message.css";
 import api from "../Layout/api";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,20 +6,36 @@ import { fetchChatMsgs } from "../features/chats/chatsSlice";
 import UserImage from "../assets/user.png";
 
 export default function message() {
-  const { messages } = useSelector((state) => state.chats);
+  const { messages, userChats } = useSelector((state) => state.chats);
   const currentChatId = useSelector((state) => state.chats.currentChatId);
   const dispatch = useDispatch();
   const id = JSON.parse(localStorage.getItem("user"))?._id || "";
-  // const history = useHistory();
-  //log
-  // console.log("chatid:" + currentChatId);
-  // console.log("userId:" + id);
 
-  //useeffect
+  const textareaRef = useRef(null);
+  const [textareaValue, setTextareaValue] = useState("");
+
+  const handleTextareaChange = (event) => {
+    setTextareaValue(event.target.value);
+    adjustTextareaHeight();
+  };
+
+  const adjustTextareaHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "45px";
+      textareaRef.current.style.height =
+        Math.min(textareaRef.current.scrollHeight, 100) + "px";
+    }
+  };
+
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [textareaValue]);
+
   useEffect(() => {
     if (currentChatId) {
       dispatch(fetchChatMsgs({ userId: id, chatId: currentChatId }));
     }
+    console.log(userChats);
   }, [currentChatId, dispatch, id]);
 
   if (!currentChatId) {
@@ -47,14 +63,36 @@ export default function message() {
               </p>
             </span>
           </div>
-          <i className="ri-phone-line"></i>
+          <i className="ri-phone-line extra"></i>
         </div>
         <div className="ChatUserData">
-          <div className="chat">hello</div>
+          <div className="chat">
+            <img src={UserImage} alt="" />
+            <div className="chatWrap">
+              <pre>lorem lorem lorem lorem lorem lorem lorem</pre>
+              <small>10:10</small>
+            </div>
+          </div>
+
+          <div className="chat me">
+            <img src={UserImage} alt="" />
+            <div className="chatWrap">
+              <pre>lorem lorem lorem lorem lorem lorem</pre>
+              <small>10:10</small>
+            </div>
+          </div>
         </div>
         <div className="ChatInput">
-          <input type="text" placeholder="Message" autoFocus/>
-          <i className="ri-send-plane-2-line"></i>
+          <i className="ri-attachment-line extra"></i>
+
+          <textarea
+            ref={textareaRef}
+            value={textareaValue}
+            onChange={handleTextareaChange}
+            placeholder="Message"
+          ></textarea>
+
+          <i className="ri-send-plane-2-fill"></i>
         </div>
       </div>
     );

@@ -10,6 +10,11 @@
   color: inherit;
 }
 
+:root{
+  --maincolor:#3690f2;
+  --maincolor30:#3690f266;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }

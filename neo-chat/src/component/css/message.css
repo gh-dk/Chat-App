@@ -27,15 +27,25 @@
   justify-content: space-between;
   align-items: center;
   padding: 0;
+  position: sticky;
+  top: 0;
 }
 
 .messageBox .Chatheader i {
-  font-size: 22px;
+  font-size: 26px;
   width: 50px;
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.messageBox .Chatheader i.extra {
+  font-size: 20px;
+  background: #e7e7e7;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 
 .messageBox .Chatheader .back-arrow {
@@ -74,33 +84,106 @@
   overflow-y: scroll;
 }
 
+.messageBox .ChatUserData .chat {
+  /* background: red; */
+  display: flex;
+  align-items: start;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.messageBox .ChatUserData .chat.me {
+  flex-direction: row-reverse;
+}
+
+.messageBox .ChatUserData .chat.me .chatWrap pre {
+  border-radius: 10px;
+  border-top-right-radius: 0;
+}
+
+.messageBox .ChatUserData .chat img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.messageBox .ChatUserData .chat .chatWrap pre {
+  background: var(--maincolor30);
+  padding: 10px;
+  border-radius: 10px;
+  border-top-left-radius: 0;
+  font-size: 15px;
+  font-weight: 400;
+  max-width: 300px;
+  word-break: keep-all;
+  white-space: wrap;
+  width: fit-content;
+}
+
+.messageBox .ChatUserData .chat.me .chatWrap pre {
+  background: #e7e7e7;
+}
+
+.messageBox .ChatUserData .chat .chatWrap:hover small {
+  display: block;
+  position: absolute;
+}
+
+.messageBox .ChatUserData .chat.me .chatWrap:hover small {
+  text-align: right;
+}
+
+.messageBox .ChatUserData .chat .chatWrap small {
+  font-size: 13px;
+  display: none;
+}
+
 .messageBox .ChatInput {
   height: 50px;
   /* background: purple; */
   margin: 10px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  border: 1px solid rgba(128, 128, 128, 0.623);
+  align-items: end;
+  gap: 5px;
+  /* border: 1px solid rgba(128, 128, 128, 0.623); */
   border-radius: 50px;
 }
-.messageBox .ChatInput input {
+.messageBox .ChatInput textarea {
   width: 100%;
-  line-height: 0;
-  padding: 10px 15px;
-  max-height: 40px;
+  line-height: 1.5;
+  padding: 13px;
+  height: 45px;
   outline: none;
-  background: white;
-  border-radius: 40px;
+  border: none;
+  border-radius: 25px;
+  background: #e7e7e7;
+  resize: none; /* Prevent resizing */
 }
 
 .messageBox .ChatInput i {
-  font-size: 22px;
+  font-size: 18px;
+  padding-left: 5px;
   width: 50px;
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(135deg, var(--maincolor) 60%, var(--maincolor30));
+  width: 45px;
+  height: 45px;
+  min-width: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.messageBox .ChatInput i.extra {
+  background: #e7e7e7;
+  padding: 0;
+  color: gray;
 }
 
 @media (width<720px) {
@@ -118,6 +201,11 @@
 
   .messageBoxForNull {
     display: none;
+  }
+
+  .messageBox .Chatheader .chatDetail img {
+    width: 40px;
+    height: 40px;
   }
 }
 

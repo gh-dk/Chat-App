@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUserChats, setCurrentChatId } from "../features/chats/chatsSlice";
 import moment from "moment";
 import { Link, useHistory, useParams, useLocation } from "react-router-dom";
+import Loading from "./loading";
 
 export default function Chats() {
   const dispatch = useDispatch();
@@ -34,29 +35,32 @@ export default function Chats() {
   };
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return (
+      <div className="statusmessage">
+        <Loading />
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div className="statusmessage error">
+        <i className="ri-error-warning-line"></i>
+        <p>Unable to Connect</p>
+      </div>
+    );
   }
   // console.log(userChats);
   return (
     <div className="chats">
       {userChats.length > 0 ? (
         userChats.map((chat, index) => (
-          <div
-            className="chat"
-            key={index}
-            onClick={() => {
-              handleChat_id(chat.chat_id);
-            }}
-          >
+          <div className="chat" key={index}>
             <div className="userprofile">
               <img
-                onClick={() =>
+                onClick={(e) =>
                   setBigImage(
-                    chat.typeGroup ? chat.groupAvatar : chat.avatar || userImage
+                    e.target.src
                   )
                 }
                 src={
@@ -68,7 +72,12 @@ export default function Chats() {
               />
               <div className="online"></div>
             </div>
-            <div className="userdetail">
+            <div
+              className="userdetail"
+              onClick={() => {
+                handleChat_id(chat.chat_id);
+              }}
+            >
               <div className="chattitle">
                 <h3>
                   {chat.participants.length >= 1
@@ -84,9 +93,16 @@ export default function Chats() {
           </div>
         ))
       ) : (
-        <div>
-          <h1>No Chats Yet!</h1>
-          <Link to="/users">Start Chating</Link>
+        <div className="no_userinChat">
+          <img src="https://cdn.dribbble.com/users/472667/screenshots/15343533/media/4a1054d82b00fd5b6544f1f3d33b3c6c.png" />
+          <h3>No Chats Yet!</h3>
+          <p>
+            Dive into seamless conversations and stay connected with friends and
+            groups effortlessly
+          </p>
+          <Link to="/users">
+            <small>Start Chating</small>
+          </Link>
         </div>
       )}
     </div>
