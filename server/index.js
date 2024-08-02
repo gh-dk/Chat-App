@@ -10,7 +10,7 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-  origin: '*', // Allow all domains (replace with specific domains for production)
+  origin: '*', // Allow all domains
 };
 
 app.use(cors(corsOptions))

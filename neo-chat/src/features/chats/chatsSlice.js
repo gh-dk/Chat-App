@@ -20,6 +20,7 @@ export const fetchUserChats = createAsyncThunk(
   }
 );
 
+// Async thunk to fetch user chats messages
 export const fetchChatMsgs = createAsyncThunk(
   "chats/fetchChatMsgs",
   async ({ userId, chatId }) => {
