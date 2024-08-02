@@ -57,7 +57,7 @@
   justify-content: start;
   align-items: center;
   padding: 0;
-  gap: 6px;
+  gap: 10px;
 }
 
 .messageBox .Chatheader .chatDetail h3 {
@@ -71,8 +71,8 @@
 }
 
 .messageBox .Chatheader .chatDetail img {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   object-fit: cover;
   border-radius: 50%;
 }
@@ -115,7 +115,7 @@
   border-top-left-radius: 0;
   font-size: 0.85rem;
   font-weight: 400;
-  max-width: 250px;
+  max-width: 550px;
   word-break: keep-all;
   white-space: wrap;
   width: fit-content;

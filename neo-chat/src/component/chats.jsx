@@ -3,14 +3,20 @@ import userImage from "../assets/user.png";
 import { setBigImage } from "./Bigprofile";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserChats, setCurrentChatId,setMessageselectedUserDetail } from "../features/chats/chatsSlice";
+import {
+  fetchUserChats,
+  setCurrentChatId,
+  setMessageselectedUserDetail,
+} from "../features/chats/chatsSlice";
 import moment from "moment";
 import { Link, useHistory, useParams, useLocation } from "react-router-dom";
 import Loading from "./loading";
 
 export default function Chats() {
   const dispatch = useDispatch();
-  const { userChats, status, error } = useSelector((state) => state.chats);
+  const { userChats, status, error, currentChatId } = useSelector(
+    (state) => state.chats
+  );
   const id = JSON.parse(localStorage.getItem("user"))._id;
   const history = useHistory();
   const location = useLocation();
@@ -20,23 +26,28 @@ export default function Chats() {
   // console.log(messagepage);
 
   useEffect(() => {
-    if (!messagepage || messagepage === 'false') {
+    if (!messagepage || messagepage === "false") {
       console.log(messagepage);
       dispatch(setCurrentChatId(null));
     }
-    
+
     console.log(messagepage);
     if (status === "idle") {
       dispatch(fetchUserChats(id));
     }
   }, [status, dispatch, id, location]);
 
-  const handleChat_id = (chatid,chatDetail) => {
+  const handleChat_id = (chatid, chatDetail) => {
     console.log(chatid);
     dispatch(setCurrentChatId(chatid));
-    dispatch(setMessageselectedUserDetail(chatDetail))
+    dispatch(setMessageselectedUserDetail(chatDetail));
     history.push("?message=true");
   };
+
+  useEffect(() => {
+    console.log(userChats, currentChatId);
+    return () => {};
+  }, [userChats, currentChatId]);
 
   if (status === "loading") {
     return (
@@ -59,7 +70,10 @@ export default function Chats() {
     <div className="chats">
       {userChats.length > 0 ? (
         userChats.map((chat, index) => (
-          <div className="chat" key={index}>
+          <div
+            className={`chat ${chat.chat_id === currentChatId ? "active" : ""}`}
+            key={index}
+          >
             <div className="userprofile">
               <img
                 onClick={(e) => setBigImage(e.target.src)}
@@ -70,12 +84,12 @@ export default function Chats() {
                 }
                 alt=""
               />
-              <div className="online"></div>
+              <div className="online">{chat._id}</div>
             </div>
             <div
               className="userdetail"
               onClick={() => {
-                handleChat_id(chat.chat_id,chat);
+                handleChat_id(chat.chat_id, chat);
               }}
             >
               <div className="chattitle">
