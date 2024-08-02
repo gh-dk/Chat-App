@@ -89,7 +89,7 @@
   display: flex;
   align-items: start;
   gap: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .messageBox .ChatUserData .chat.me {
@@ -129,7 +129,7 @@
 
 .messageBox .ChatUserData .chat.sub .chatWrap pre {
   border-radius: 10px;
-  margin-top: -5px;
+  margin-top: -7px;
 }
 
 .messageBox .ChatUserData .chat.sub img {
