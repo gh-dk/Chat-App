@@ -67,12 +67,6 @@ export default function message() {
     }
   }, [currentChatId, dispatch, id]);
 
-  useEffect(() => {
-    console.log("messages");
-    console.log(messages);
-    console.log(selectedUserDetail);
-    return () => {};
-  }, [messages, selectedUserDetail]);
 
   if (!currentChatId) {
     return (
@@ -145,5 +139,3 @@ export default function message() {
     );
   }
 }
-
-//https://dribbble.com/shots/15343533/attachments/7103250?mode=media

@@ -9,7 +9,7 @@ import {
   setMessageselectedUserDetail,
 } from "../features/chats/chatsSlice";
 import moment from "moment";
-import { Link, useHistory, useParams, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import Loading from "./loading";
 
 export default function Chats() {
@@ -21,24 +21,24 @@ export default function Chats() {
   const history = useHistory();
   const location = useLocation();
 
-  console.log(location);
+
   const messagepage = new URLSearchParams(location.search).get("message");
   // console.log(messagepage);
 
   useEffect(() => {
     if (!messagepage || messagepage === "false") {
-      console.log(messagepage);
+      // console.log(messagepage);
       dispatch(setCurrentChatId(null));
     }
 
-    console.log(messagepage);
+    // console.log(messagepage);
     if (status === "idle") {
       dispatch(fetchUserChats(id));
     }
   }, [status, dispatch, id, location]);
 
   const handleChat_id = (chatid, chatDetail) => {
-    console.log(chatid);
+    // console.log(chatid);
     dispatch(setCurrentChatId(chatid));
     dispatch(setMessageselectedUserDetail(chatDetail));
     history.push("?message=true");

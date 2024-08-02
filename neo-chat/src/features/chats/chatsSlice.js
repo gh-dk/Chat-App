@@ -21,6 +21,16 @@ export const fetchUserChats = createAsyncThunk(
   }
 );
 
+// Async thunk to fetch user chats messages
+export const fetchChatMsgs = createAsyncThunk(
+  "chats/fetchChatMsgs",
+  async ({ userId, chatId }) => {
+    const response = await api.get(`/chats/user/${userId}/${chatId}`);
+    return { data: response.data };
+  }
+);
+
+// Async thunk to send message to user chats
 export const sendUserChat = createAsyncThunk(
   "chats/sendUserChat",
   async ({ userId, chatId, message }) => {
@@ -29,15 +39,6 @@ export const sendUserChat = createAsyncThunk(
       content: message,
     });
     return { data: response.data, chatId, userId };
-  }
-);
-
-// Async thunk to fetch user chats messages
-export const fetchChatMsgs = createAsyncThunk(
-  "chats/fetchChatMsgs",
-  async ({ userId, chatId }) => {
-    const response = await api.get(`/chats/user/${userId}/${chatId}`);
-    return { data: response.data };
   }
 );
 
