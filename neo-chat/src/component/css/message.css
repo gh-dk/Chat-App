@@ -27,15 +27,25 @@
   justify-content: space-between;
   align-items: center;
   padding: 0;
+  position: sticky;
+  top: 0;
 }
 
 .messageBox .Chatheader i {
-  font-size: 22px;
+  font-size: 26px;
   width: 50px;
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.messageBox .Chatheader i.extra {
+  font-size: 20px;
+  background: #e7e7e7;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 
 .messageBox .Chatheader .back-arrow {
@@ -47,7 +57,7 @@
   justify-content: start;
   align-items: center;
   padding: 0;
-  gap: 6px;
+  gap: 10px;
 }
 
 .messageBox .Chatheader .chatDetail h3 {
@@ -61,8 +71,8 @@
 }
 
 .messageBox .Chatheader .chatDetail img {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   object-fit: cover;
   border-radius: 50%;
 }
@@ -74,33 +84,121 @@
   overflow-y: scroll;
 }
 
+.messageBox .ChatUserData .chat {
+  /* background: red; */
+  display: flex;
+  align-items: start;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.messageBox .ChatUserData .chat.me {
+  flex-direction: row-reverse;
+}
+
+.messageBox .ChatUserData .chat.me .chatWrap pre {
+  border-radius: 10px;
+  border-top-right-radius: 0;
+}
+
+.messageBox .ChatUserData .chat img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.messageBox .ChatUserData .chat .chatWrap pre {
+  background: #f0f0f0;
+  padding: 10px;
+  border-radius: 10px;
+  border-top-left-radius: 0;
+  font-size: 0.85rem;
+  font-weight: 400;
+  max-width: 550px;
+  word-break: keep-all;
+  white-space: wrap;
+  width: fit-content;
+}
+
+.messageBox .ChatUserData .chat.me .chatWrap pre {
+  background: var(--maincolor30);
+  position: relative;
+  /* padding-bottom: 15px; */
+}
+
+.messageBox .ChatUserData .chat.sub .chatWrap pre {
+  border-radius: 10px;
+  margin-top: -7px;
+}
+
+.messageBox .ChatUserData .chat.sub img {
+  opacity: 0;
+}
+
+.messageBox .ChatUserData .chat .chatWrap pre small {
+  display: block;
+  /* position: absolute; */
+  bottom: 0;
+  margin-bottom: -7px;
+  opacity: 50%;
+  margin-top: 2px;
+  font-size: 9px;
+}
+
+.messageBox .ChatUserData .chat.me .chatWrap pre small {
+  text-align: right;
+}
+
+.messageBox .ChatUserData .chat.me img {
+  display: none;
+}
+
 .messageBox .ChatInput {
   height: 50px;
   /* background: purple; */
   margin: 10px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  border: 1px solid rgba(128, 128, 128, 0.623);
+  align-items: end;
+  gap: 5px;
+  /* border: 1px solid rgba(128, 128, 128, 0.623); */
   border-radius: 50px;
 }
-.messageBox .ChatInput input {
+.messageBox .ChatInput textarea {
   width: 100%;
-  line-height: 0;
-  padding: 10px 15px;
-  max-height: 40px;
+  line-height: 1.5;
+  padding: 13px;
+  height: 45px;
   outline: none;
-  background: white;
-  border-radius: 40px;
+  border: none;
+  border-radius: 25px;
+  background: #e7e7e7;
+  resize: none; /* Prevent resizing */
 }
 
 .messageBox .ChatInput i {
-  font-size: 22px;
+  font-size: 18px;
+  padding-left: 5px;
   width: 50px;
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(135deg, var(--maincolor) 60%, var(--maincolor30));
+  width: 45px;
+  height: 45px;
+  min-width: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.messageBox .ChatInput i.extra {
+  background: #e7e7e7;
+  padding: 0;
+  color: gray;
 }
 
 @media (width<720px) {
@@ -118,6 +216,11 @@
 
   .messageBoxForNull {
     display: none;
+  }
+
+  .messageBox .Chatheader .chatDetail img {
+    width: 40px;
+    height: 40px;
   }
 }
 

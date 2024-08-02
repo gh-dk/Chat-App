@@ -3,13 +3,20 @@ import userImage from "../assets/user.png";
 import { setBigImage } from "./Bigprofile";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserChats, setCurrentChatId } from "../features/chats/chatsSlice";
+import {
+  fetchUserChats,
+  setCurrentChatId,
+  setMessageselectedUserDetail,
+} from "../features/chats/chatsSlice";
 import moment from "moment";
 import { Link, useHistory, useParams, useLocation } from "react-router-dom";
+import Loading from "./loading";
 
 export default function Chats() {
   const dispatch = useDispatch();
-  const { userChats, status, error } = useSelector((state) => state.chats);
+  const { userChats, status, error, currentChatId } = useSelector(
+    (state) => state.chats
+  );
   const id = JSON.parse(localStorage.getItem("user"))._id;
   const history = useHistory();
   const location = useLocation();
@@ -19,26 +26,44 @@ export default function Chats() {
   // console.log(messagepage);
 
   useEffect(() => {
-    if (!messagepage) {
+    if (!messagepage || messagepage === "false") {
+      console.log(messagepage);
       dispatch(setCurrentChatId(null));
     }
+
+    console.log(messagepage);
     if (status === "idle") {
       dispatch(fetchUserChats(id));
     }
   }, [status, dispatch, id, location]);
 
-  const handleChat_id = (chatid) => {
+  const handleChat_id = (chatid, chatDetail) => {
     console.log(chatid);
     dispatch(setCurrentChatId(chatid));
+    dispatch(setMessageselectedUserDetail(chatDetail));
     history.push("?message=true");
   };
 
+  useEffect(() => {
+    console.log(userChats, currentChatId);
+    return () => {};
+  }, [userChats, currentChatId]);
+
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return (
+      <div className="statusmessage">
+        <Loading />
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div className="statusmessage error">
+        <i className="ri-error-warning-line"></i>
+        <p>Unable to Connect</p>
+      </div>
+    );
   }
   // console.log(userChats);
   return (
@@ -46,19 +71,12 @@ export default function Chats() {
       {userChats.length > 0 ? (
         userChats.map((chat, index) => (
           <div
-            className="chat"
+            className={`chat ${chat.chat_id === currentChatId ? "active" : ""}`}
             key={index}
-            onClick={() => {
-              handleChat_id(chat.chat_id);
-            }}
           >
             <div className="userprofile">
               <img
-                onClick={() =>
-                  setBigImage(
-                    chat.typeGroup ? chat.groupAvatar : chat.avatar || userImage
-                  )
-                }
+                onClick={(e) => setBigImage(e.target.src)}
                 src={
                   chat.typeGroup
                     ? chat.groupAvatar
@@ -66,9 +84,14 @@ export default function Chats() {
                 }
                 alt=""
               />
-              <div className="online"></div>
+              <div className="online">{chat._id}</div>
             </div>
-            <div className="userdetail">
+            <div
+              className="userdetail"
+              onClick={() => {
+                handleChat_id(chat.chat_id, chat);
+              }}
+            >
               <div className="chattitle">
                 <h3>
                   {chat.participants.length >= 1
@@ -84,9 +107,16 @@ export default function Chats() {
           </div>
         ))
       ) : (
-        <div>
-          <h1>No Chats Yet!</h1>
-          <Link to="/users">Start Chating</Link>
+        <div className="no_userinChat">
+          <img src="https://cdn.dribbble.com/users/472667/screenshots/15343533/media/4a1054d82b00fd5b6544f1f3d33b3c6c.png" />
+          <h3>No Chats Yet!</h3>
+          <p>
+            Dive into seamless conversations and stay connected with friends and
+            groups effortlessly
+          </p>
+          <Link to="/users">
+            <small>Start Chating</small>
+          </Link>
         </div>
       )}
     </div>

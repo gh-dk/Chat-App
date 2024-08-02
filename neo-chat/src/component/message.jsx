@@ -1,26 +1,66 @@
-import React, { useEffect, useId, useState } from "react";
+import React, { useEffect, useId, useState, useRef } from "react";
 import "./css/message.css";
 import api from "../Layout/api";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchChatMsgs } from "../features/chats/chatsSlice";
 import UserImage from "../assets/user.png";
+import { useHistory } from "react-router";
+import moment from "moment";
 
 export default function message() {
-  const { messages } = useSelector((state) => state.chats);
+  const { messages, selectedUserDetail } = useSelector((state) => state.chats);
   const currentChatId = useSelector((state) => state.chats.currentChatId);
   const dispatch = useDispatch();
+  const history = useHistory();
   const id = JSON.parse(localStorage.getItem("user"))?._id || "";
-  // const history = useHistory();
-  //log
-  // console.log("chatid:" + currentChatId);
-  // console.log("userId:" + id);
 
-  //useeffect
+  const textareaRef = useRef(null);
+  const [textareaValue, setTextareaValue] = useState("");
+
+  const handleTextareaChange = (event) => {
+    setTextareaValue(event.target.value);
+    adjustTextareaHeight();
+  };
+
+  const adjustTextareaHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "45px";
+      textareaRef.current.style.height =
+        Math.min(textareaRef.current.scrollHeight, 100) + "px";
+    }
+  };
+
+  const chatImageSetter = (elementIndex) => {
+    const current = messages[elementIndex];
+    if (elementIndex === 0) return true;
+    const parentElemet = messages[elementIndex - 1];
+    console.log(current);
+    if (current.sender._id === parentElemet.sender._id) {
+      return false;
+    } else {
+      return true;
+    }
+
+    console.log(messages[elementIndex]);
+    return true;
+  };
+
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [textareaValue]);
+
   useEffect(() => {
     if (currentChatId) {
       dispatch(fetchChatMsgs({ userId: id, chatId: currentChatId }));
     }
   }, [currentChatId, dispatch, id]);
+
+  useEffect(() => {
+    console.log("messages");
+    console.log(messages);
+    console.log(selectedUserDetail);
+    return () => {};
+  }, [messages, selectedUserDetail]);
 
   if (!currentChatId) {
     return (
@@ -35,26 +75,60 @@ export default function message() {
           <div className="chatDetail">
             <i
               onClick={() => {
-                window.history.back();
+                history.push("?message=false");
               }}
               className="ri-arrow-left-s-line back-arrow"
             ></i>
-            <img src={UserImage} />
+            <img
+              src={
+                selectedUserDetail.typeGroup
+                  ? selectedUserDetail.groupAvatar
+                  : selectedUserDetail.participants[0].avatar
+              }
+            />
             <span>
-              <h3>Usename</h3>
+              <h3>
+                {selectedUserDetail.typeGroup
+                  ? selectedUserDetail.groupName
+                  : selectedUserDetail.participants[0].username}
+              </h3>
               <p>
                 <small>Online</small>
               </p>
             </span>
           </div>
-          <i className="ri-phone-line"></i>
+          <i className="ri-phone-line extra"></i>
         </div>
         <div className="ChatUserData">
-          <div className="chat">hello</div>
+          {messages.map((e, index) => (
+            <div
+              className={`chat ${e.sender._id === id ? "me" : ""} ${chatImageSetter(index) ? '' : 'sub'}`}
+              key={e._id}
+            >
+              <img
+                src={e.sender.avatar}
+                alt=""
+              />
+              <div className="chatWrap">
+                <pre>
+                  {e.content}
+                  <small>{moment(e.timestamp).format("HH:MM")}</small>
+                </pre>
+              </div>
+            </div>
+          ))}
         </div>
         <div className="ChatInput">
-          <input type="text" placeholder="Message" autoFocus/>
-          <i className="ri-send-plane-2-line"></i>
+          <i className="ri-attachment-line extra"></i>
+
+          <textarea
+            ref={textareaRef}
+            value={textareaValue}
+            onChange={handleTextareaChange}
+            placeholder="Message"
+          ></textarea>
+
+          <i className="ri-send-plane-2-fill"></i>
         </div>
       </div>
     );
