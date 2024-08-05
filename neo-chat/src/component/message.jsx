@@ -14,6 +14,7 @@ export default function message() {
   const history = useHistory();
   const id = JSON.parse(localStorage.getItem("user"))?._id || "";
 
+  const ChatUserDataRef = useRef(null);
   const textareaRef = useRef(null);
   const [textareaValue, setTextareaValue] = useState("");
 
@@ -67,6 +68,12 @@ export default function message() {
     }
   }, [currentChatId, dispatch, id]);
 
+  useEffect(() => {
+    if (ChatUserDataRef.current?.scrollHeight) {
+      // console.log("runned");
+      ChatUserDataRef.current.scrollTop = ChatUserDataRef.current.scrollHeight;
+    }
+  }, [history,messages]);
 
   if (!currentChatId) {
     return (
@@ -105,7 +112,7 @@ export default function message() {
           </div>
           <i className="ri-phone-line extra"></i>
         </div>
-        <div className="ChatUserData">
+        <div className="ChatUserData" ref={ChatUserDataRef}>
           {messages.map((e, index) => (
             <div
               className={`chat ${e.sender._id === id ? "me" : ""} ${
