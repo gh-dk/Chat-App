@@ -1,6 +1,5 @@
-import React, { useEffect, useId, useState, useRef } from "react";
+import React, { useEffect,useState, useRef } from "react";
 import "./css/message.css";
-import api from "../Layout/api";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchChatMsgs, sendUserChat } from "../features/chats/chatsSlice";
 import UserImage from "../assets/user.png";
