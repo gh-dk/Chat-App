@@ -7,7 +7,9 @@ import {
   sendResetPasswordEmail,
   resetPassword,
   refreshAccessToken,
+  validateToken
 } from '../controllers/User.controller.js';
+
 
 const router = express.Router();
 
@@ -28,5 +30,7 @@ router.post('/send-reset-password-email', sendResetPasswordEmail);
 
 // Route to reset password
 router.post('/reset-password', resetPassword);
+
+router.get('/validate-token', validateToken);
 
 export default router;

@@ -7,6 +7,7 @@ import {
   addMessageToChat
 } from '../controllers/Chat.controller.js'; 
 
+import authenticateToken from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -15,15 +16,15 @@ const router = express.Router();
 router.post('/', createOrUpdateChat);
 
 // Route to get all chats
-router.get('/', getAllChats);
+router.get('/', authenticateToken, getAllChats);
 
 // Route to get all chats related to a specific user ID
-router.get('/user/:userId', getChatsByUserId);
+router.get('/user/:userId',authenticateToken, getChatsByUserId);
 
 // Route to get all messages for a specific chat ID and user ID
-router.get('/user/:id/:chatid', getMessagesByChatId);
+router.get('/user/:id/:chatid',authenticateToken, getMessagesByChatId);
 
 // Route to add a message to a specific chat ID
-router.post('/user/:id/:chatid', addMessageToChat);
+router.post('/user/:id/:chatid',authenticateToken, addMessageToChat);
 
 export default router;

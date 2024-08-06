@@ -20,7 +20,7 @@ export default function Chats({ path }) {
 
   const [renderingChat, setrenderingChat] = useState([]);
 
-  const id = JSON.parse(localStorage.getItem("user"))._id;
+  const id = JSON.parse(localStorage.getItem("user"))?._id;
   const history = useHistory();
   const location = useLocation();
 

@@ -9,8 +9,12 @@ const refreshTokenExpiry = "7d"; // Refresh token expires in 7 days
 
 // Generate Access and Refresh Tokens
 const generateTokens = (userId) => {
-  const accessToken = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: accessTokenExpiry });
-  const refreshToken = jwt.sign({ userId }, process.env.JWT_REFRESH_SECRET, { expiresIn: refreshTokenExpiry });
+  const accessToken = jwt.sign({ userId }, process.env.JWT_SECRET, {
+    expiresIn: accessTokenExpiry,
+  });
+  const refreshToken = jwt.sign({ userId }, process.env.JWT_REFRESH_SECRET, {
+    expiresIn: refreshTokenExpiry,
+  });
   return { accessToken, refreshToken };
 };
 
@@ -24,11 +28,21 @@ export const createUser = async (req, res) => {
     // Generate access and refresh tokens
     const { accessToken, refreshToken } = generateTokens(user._id);
 
+    // Set tokens in cookies
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: false,
+    });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: false,
+    });
+
     // Send the user object along with the tokens
     res.status(201).send({
       user: { ...user.toObject(), password: undefined }, // Exclude password from the response
-      accessToken,
-      refreshToken,
     });
   } catch (error) {
     res.status(400).send(error);
@@ -62,9 +76,19 @@ export const loginUser = async (req, res) => {
 
     const { accessToken, refreshToken } = generateTokens(user._id);
 
+    // Set tokens in cookies
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: false,
+    });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: false,
+    });
+
     res.status(200).send({
-      accessToken,
-      refreshToken,
       user: { ...user.toObject(), password: undefined },
     });
   } catch (error) {
@@ -75,16 +99,30 @@ export const loginUser = async (req, res) => {
 // Refresh token
 export const refreshAccessToken = async (req, res) => {
   try {
-    const { refreshToken } = req.body;
+    const { refreshToken } = req.cookies;
 
     if (!refreshToken) {
       return res.status(400).send({ message: "Refresh token not provided" });
     }
 
     const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-    const { accessToken, refreshToken: newRefreshToken } = generateTokens(decoded.userId);
+    const { accessToken, refreshToken: newRefreshToken } = generateTokens(
+      decoded.userId
+    );
 
-    res.status(200).send({ accessToken, refreshToken: newRefreshToken });
+    // Set new tokens in cookies
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: false,
+    });
+    res.cookie("refreshToken", newRefreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: false,
+    });
+
+    res.status(200).send({ message: "Access token refreshed" });
   } catch (error) {
     res.status(403).send({ message: "Invalid or expired refresh token" });
   }
@@ -142,5 +180,21 @@ export const resetPassword = async (req, res) => {
     res.status(200).send({ message: "Password reset successful" });
   } catch (error) {
     res.status(500).send(error);
+  }
+};
+
+//validate Token
+export const validateToken = (req, res) => {
+  try {
+    const token = req.cookies.accessToken;
+    console.log("token: " + token);
+
+    if (!token) {
+      return res.status(401).send({ message: "Access token required" });
+    }
+    jwt.verify(token, process.env.JWT_SECRET);
+    res.status(200).send({ message: "Token is valid" });
+  } catch (error) {
+    res.status(401).send({ message: "Invalid or expired access token" });
   }
 };
