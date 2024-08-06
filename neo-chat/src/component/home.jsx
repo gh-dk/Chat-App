@@ -28,7 +28,7 @@ export default function home() {
         </Link>
       </section>
 
-      <Chats />
+      <Chats path={path} />
     </div>
   );
 }

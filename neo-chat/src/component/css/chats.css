@@ -10,7 +10,7 @@
   transition: 0.5s background;
 }
 
-.chats .chat:hover{
+.chats .chat:hover {
   background: #f5f5f5;
 }
 
@@ -73,12 +73,18 @@
   font-size: 15px;
   color: rgb(41, 46, 51);
   font-weight: normal;
-  line-height: 0;
+  line-height: 1.1rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .chats .chat .userdetail .chattitle small {
   font-size: 12px;
   opacity: 0.5;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .chats .chat .userdetail .lastmessage {
