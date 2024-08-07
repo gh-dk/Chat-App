@@ -47,7 +47,7 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-  origin: ["http://localhost:8100","http://10.0.62.183:8100"], // Allow only your client URL
+  origin: ["http://localhost:8100","http://10.0.62.183:8100","https://chat-app-1-b89d.onrender.com"], // Allow only your client URL
   methods:["GET","POST"],
   credentials: true, // Enable sending of cookies from the client
 };
