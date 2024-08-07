@@ -36,8 +36,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Route, Redirect } from "react-router-dom";
-import { validateToken } from "./Layout/api";
-// import api from "./Layout/api";
+import api from "./Layout/api";
 
 const ProtectedRoute = ({ component: Component}) => {
   const [isAuth, setIsAuth] = useState(true);
@@ -45,7 +44,7 @@ const ProtectedRoute = ({ component: Component}) => {
     console.log("Protected Route");
     const isAuthenticated = async () => {
       try {
-        const res = await validateToken(); // An endpoint to validate the token
+        const res = await api.get('/users/validate-token'); // An endpoint to validate the token
         if (res.status != 200) {
           setIsAuth(false);
           console.log(res);

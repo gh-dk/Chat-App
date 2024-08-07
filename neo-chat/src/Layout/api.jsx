@@ -14,8 +14,6 @@ const api = axios.create({
   },
 });
 
-export const validateToken = (data) => api.get("/users/validate-token", data);
-
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
