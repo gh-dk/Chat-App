@@ -44,7 +44,7 @@ const ProtectedRoute = ({ component: Component}) => {
     console.log("Protected Route");
     const isAuthenticated = async () => {
       try {
-        const res = await api.get('/users/validate-token'); // An endpoint to validate the token
+        const res = await api.get('/users/verify-token'); // An endpoint to validate the token
         if (res.status != 200) {
           setIsAuth(false);
           console.log(res);

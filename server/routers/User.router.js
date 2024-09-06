@@ -1,36 +1,21 @@
-// User.router.js
 import express from 'express';
-import {
-  createUser,
-  getAllUsers,
-  loginUser,
-  sendResetPasswordEmail,
-  resetPassword,
-  refreshAccessToken,
-  validateToken
-} from '../controllers/User.controller.js';
-
+import { getAllUsers, loginUser, refreshAccessToken, registerUser, verifyToken } from '../controllers/User.controller.js';
 
 const router = express.Router();
 
-// Route to create a new user
-router.post('/', createUser);
+// Register User
+router.post('/',registerUser);
 
-// Route to get all users (protected route)
+// Get all Users
 router.get('/', getAllUsers);
 
-// Route for user login
-router.post('/login', loginUser);
+// Login User
+router.route('/login').post(loginUser);
 
-// Route to refresh access token
-router.post('/refresh-token', refreshAccessToken);
+// RefreshToken
+router.route('/refresh-token').post(refreshAccessToken)
 
-// Route to send reset password email
-router.post('/send-reset-password-email', sendResetPasswordEmail);
-
-// Route to reset password
-router.post('/reset-password', resetPassword);
-
-router.get('/validate-token', validateToken);
+// VerifyToken
+router.route('/verify-token').get(verifyToken);
 
 export default router;

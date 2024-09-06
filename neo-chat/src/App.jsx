@@ -4,7 +4,7 @@ import Home from "./component/home";
 import Users from "./component/users";
 import Nav from "./component/nav";
 import Message from "./component/message";
-import Auth from "./Layout/auth";
+import Auth from "./component/auth";
 import { Bigprofile } from "./component/Bigprofile";
 import ProtectedRoute from "./ProtectedRoute"; // Your custom ProtectedRoute component
 import "./App.css";

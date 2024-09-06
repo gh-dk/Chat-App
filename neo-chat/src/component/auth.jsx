@@ -126,8 +126,8 @@
 
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import api from "./api";
-import "./auth.css";
+import api from "../Layout/api";
+import "./css/auth.css";
 import axios from "axios";
 
 export default function Auth() {
@@ -149,7 +149,7 @@ export default function Auth() {
         password: formData.password,
       });
       localStorage.setItem('user',JSON.stringify(response.data.user));
-      // console.log("line 169 authjsx", response)
+      // console.log("line 152 authjsx", response)
 
       history.push("/chats");
     } catch (error) {
