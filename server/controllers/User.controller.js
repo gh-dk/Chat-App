@@ -22,7 +22,7 @@ const generateTokens = async (user) => {
 // Options of Cookies
 const cookieOptions = {
     httpOnly: true,
-    secure: true,
+    // secure: true,
 };
 
 // Get all users
