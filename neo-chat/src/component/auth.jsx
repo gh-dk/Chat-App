@@ -132,7 +132,12 @@ import axios from "axios";
 
 export default function Auth() {
   const [page, setPage] = useState("login");
-  const [formData, setFormData] = useState({ email: "", password: "", name: "", avatar: "" });
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    name: "",
+    avatar: "",
+  });
   const history = useHistory();
 
   // Handle input changes for form fields
@@ -148,8 +153,11 @@ export default function Auth() {
         email: formData.email,
         password: formData.password,
       });
-      localStorage.setItem('user',JSON.stringify(response.data.user));
+      localStorage.setItem("user", JSON.stringify(response.data.user));
       // console.log("line 152 authjsx", response)
+      localStorage.setItem("accessToken", response.data.accessToken);
+      localStorage.setItem("refreshToken", response.data.refreshToken);
+      console.log(response.data);
 
       history.push("/chats");
     } catch (error) {
@@ -166,8 +174,12 @@ export default function Auth() {
         username: formData.name,
         email: formData.email,
         password: formData.password,
-        avatar: formData.avatar, // Include avatar in signup data
+        avatar: formData.avatar,
       });
+
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      localStorage.setItem("accessToken", response.data.accessToken);
+      localStorage.setItem("refreshToken", response.data.refreshToken);
 
       history.push("/chats");
     } catch (error) {
@@ -180,7 +192,10 @@ export default function Auth() {
     <div className="auth">
       {page === "login" ? (
         <form className="form login" onSubmit={handleLogin}>
-          <img src="https://cdn.dribbble.com/users/472667/screenshots/15343533/media/26aa942b41f6c4959d6feb68814dd598.png?resize=1200x900&vertical=center" alt="Login" />
+          <img
+            src="https://cdn.dribbble.com/users/472667/screenshots/15343533/media/26aa942b41f6c4959d6feb68814dd598.png?resize=1200x900&vertical=center"
+            alt="Login"
+          />
           <h3>Login form</h3>
           <p>lorem lorem lorem lorem</p>
           <input
@@ -206,7 +221,10 @@ export default function Auth() {
         </form>
       ) : (
         <form className="form signup" onSubmit={handleSignup}>
-          <img src="https://cdn.dribbble.com/users/472667/screenshots/15343533/media/4a1054d82b00fd5b6544f1f3d33b3c6c.png" alt="Signup" />
+          <img
+            src="https://cdn.dribbble.com/users/472667/screenshots/15343533/media/4a1054d82b00fd5b6544f1f3d33b3c6c.png"
+            alt="Signup"
+          />
           <h3>Signup form</h3>
           <p>lorem lorem lorem lorem</p>
           <input
@@ -248,4 +266,3 @@ export default function Auth() {
     </div>
   );
 }
-

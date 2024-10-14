@@ -1,10 +1,11 @@
-import React, { useEffect,useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./css/message.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchChatMsgs, sendUserChat } from "../features/chats/chatsSlice";
 import UserImage from "../assets/user.png";
 import { useHistory } from "react-router";
 import moment from "moment";
+import { useSocket } from "../App";
 
 export default function message() {
   const { messages, selectedUserDetail } = useSelector((state) => state.chats);
@@ -12,6 +13,8 @@ export default function message() {
   const dispatch = useDispatch();
   const history = useHistory();
   const id = JSON.parse(localStorage.getItem("user"))?._id || "";
+
+  const socket = useSocket();
 
   const ChatUserDataRef = useRef(null);
   const textareaRef = useRef(null);
@@ -55,6 +58,9 @@ export default function message() {
       setTextareaValue("");
       adjustTextareaHeight();
     }
+    socket.on("message", (msg) => {
+      
+    });
   };
 
   useEffect(() => {
@@ -72,7 +78,7 @@ export default function message() {
       // console.log("runned");
       ChatUserDataRef.current.scrollTop = ChatUserDataRef.current.scrollHeight;
     }
-  }, [history,messages]);
+  }, [history, messages]);
 
   if (!currentChatId) {
     return (

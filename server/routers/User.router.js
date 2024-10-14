@@ -10,12 +10,12 @@ router.post('/',registerUser);
 router.get('/', getAllUsers);
 
 // Login User
-router.route('/login').post(loginUser);
+router.post('/login',loginUser);
 
 // RefreshToken
-router.route('/refresh-token').post(refreshAccessToken)
+router.post('/refresh-token',refreshAccessToken)
 
 // VerifyToken
-router.route('/verify-token').get(verifyToken);
+router.get('/verify-token',verifyToken);
 
 export default router;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, createContext, useContext, useState } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Home from "./component/home";
 import Users from "./component/users";
@@ -8,9 +8,34 @@ import Auth from "./component/auth";
 import { Bigprofile } from "./component/Bigprofile";
 import ProtectedRoute from "./ProtectedRoute"; // Your custom ProtectedRoute component
 import "./App.css";
+import { io } from "socket.io-client";
+
+// Create a context for Socket
+const SocketContext = createContext();
+
+export const useSocket = () => useContext(SocketContext);
 
 export default function App() {
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    const newSocket = io("http://localhost:3002"); // Connect to server
+    setSocket(newSocket);
+
+    newSocket.on("connect", () => {
+      console.log("Connected with Socket ID: ", newSocket.id);
+    });
+
+    newSocket.on("message", (message) => {
+      console.log("Message from server:", message);
+    });
+
+    // Cleanup on component unmount
+    return () => newSocket.close();
+  }, []);
+
   return (
+    <SocketContext.Provider value={socket}>
       <BrowserRouter>
         <div className="viewPage">
           <Switch>
@@ -27,6 +52,6 @@ export default function App() {
         </div>
         <Nav />
       </BrowserRouter>
-
+    </SocketContext.Provider>
   );
 }

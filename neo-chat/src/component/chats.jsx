@@ -11,6 +11,8 @@ import {
 import moment from "moment";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Loading from "./loading";
+import axios from "axios";
+import api from "../Layout/api";
 
 export default function Chats({ path }) {
   const dispatch = useDispatch();
@@ -67,6 +69,22 @@ export default function Chats({ path }) {
       setrenderingChat(userChats);
     }
   }, [userChats, path]);
+
+  // useEffect(() => {
+  //   api.post(
+  //     "http://localhost:3002/chats",
+  //     JSON.stringify({
+  //       participants: ["670cc6ccbfc8e81c541ca822", "670ccdac592902306b8380f2"],
+  //       messages: [
+  //         {
+  //           sender: "670ccdac592902306b8380f2",
+  //           content: "Hello, this is a 2 message.",
+  //         },
+  //       ],
+  //     })
+  //   );
+  //   return () => {};
+  // }, []);
 
   if (status === "loading") {
     return (
